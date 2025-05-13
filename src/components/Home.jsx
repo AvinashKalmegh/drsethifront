@@ -1,9 +1,6 @@
 // components/MainContent.jsx
 import React, { useContext, useEffect, useState } from "react";
-import heroImg from "../assets/vikram.jpg"; // Replace with actual import path
-import book1 from "../assets/Book1.jpg";
-import book2 from "../assets/Book2.jpg";
-import book3 from "../assets/Book3.jpg";
+
 import Card from "./Card";
 import { Helmet } from "react-helmet-async";
 import MyContext from "../ContextApi/MyContext";

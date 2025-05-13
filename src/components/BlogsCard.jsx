@@ -1,8 +1,6 @@
 import React from "react";
 
-import book1 from "../assets/book1.jpg";
-import book2 from "../assets/book2.jpg";
-import book3 from "../assets/book3.jpg";
+
 import { useNavigate } from "react-router-dom";
 
 
