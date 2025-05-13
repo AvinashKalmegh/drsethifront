@@ -1,44 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
-import book1 from "../assets/book1.jpg";
-import book2 from "../assets/book2.jpg";
-import book3 from "../assets/book3.jpg";
+
 import { useParams } from "react-router-dom";
 import MyContext from "../ContextApi/MyContext";
 import Loader from "./Loader/Loader";
 import axios from "axios";
-import contactBg from "../assets/about.jpg";
-import { getBlogById } from "./Admin/Blog/blogApis";
 import { toast } from "react-toastify";
 import { getMediaById } from "./Admin/Media/mediaApi";
 
-const recentBlogs = [
-  {
-    image: book1,
-    date: "Apr 19, 2025",
-    title: "Cybersecurity Crossroads: From AI Attack...",
-  },
-  {
-    image: book1,
-    date: "Apr 05, 2025",
-    title: "Cybersecurity in April 2025: The Digital...",
-  },
-  {
-    image: book1,
-    date: "Mar 30, 2025",
-    title: "Cybersecurity Brief: A Wake-Up Call in a...",
-  },
-  {
-    image: book1,
-    date: "Mar 28, 2025",
-    title: "A new normal for Cyber Security?",
-  },
-  {
-    image: book1,
-    date: "Mar 15, 2025",
-    title: "Art of Smishing",
-  },
-  // Add up to 10 recent blogs
-];
+
 
 const MediaCard  = () => {
   const { Id } = useParams();
