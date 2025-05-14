@@ -51,6 +51,18 @@ body {
 }
 
 
+.blog-description a {
+  color: #1d4ed8; /* Tailwind blue-700 */
+  text-decoration: underline;
+}
+
+.blog-description a:hover {
+  color: #dc2626; /* Tailwind red-600 */
+  text-decoration: underline;
+}
+
+
+
 .ql-editor table {
   width: 100%;
   border-collapse: collapse;

@@ -111,7 +111,7 @@ export default function VideoList() {
         ))}
       </div>
 
-      {videos.length > 0 && (
+      {/* {videos.length > 0 && (
         <div className="text-right mt-4">
           <button
             onClick={() => setVideos([])}
@@ -120,7 +120,7 @@ export default function VideoList() {
             🗑️ Delete All Videos
           </button>
         </div>
-      )}
+      )} */}
     </motion.div>
   );
 }
