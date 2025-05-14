@@ -139,7 +139,7 @@ const Banner = () => {
               />
               <p className="text-xs text-gray-500 mt-1">Max 250 characters allowed</p>
             </div>
-
+{/* 
             <div>
               <label className="block text-sm font-medium mb-1">Width (%)</label>
               <input
@@ -149,9 +149,9 @@ const Banner = () => {
                 onChange={handleChange}
                 className="w-full border border-gray-300 rounded-md px-4 py-2"
               />
-            </div>
+            </div> */}
 
-            <div>
+            {/* <div>
               <label className="block text-sm font-medium mb-1">Height (px)</label>
               <input
                 type="number"
@@ -160,7 +160,7 @@ const Banner = () => {
                 onChange={handleChange}
                 className="w-full border border-gray-300 rounded-md px-4 py-2"
               />
-            </div>
+            </div> */}
 
             <div className="md:col-span-2">
               <label className="block text-sm font-medium mb-1">Choose file</label>

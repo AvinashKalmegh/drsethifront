@@ -9,6 +9,7 @@ import Loader from "./Loader/Loader";
 import { getAllMedia } from "./Admin/Media/mediaApi";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { fetchRecentBlogs } from "./Admin/Blog/blogApis";
 
 const Home = () => {
   const [preview, setPreview] = useState("");
@@ -40,19 +41,35 @@ const Home = () => {
   const [blogs, setBlogs] = useState([]);
   const [books, setBooks] = useState([]);
 
+  // useEffect(() => {
+  //   const fetchBlogData = async () => {
+  //     try {
+  //       const res = await axios.get(`${api}/blogs/`);
+  //       setBlogs(res.data);
+  //       console.log(res.data);
+  //     } catch (error) {
+  //       console.log(error);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
   useEffect(() => {
     const fetchBlogData = async () => {
       try {
-        const res = await axios.get(`${api}/blogs/`);
-        setBlogs(res.data);
-        console.log(res.data);
+        const [recent] = await Promise.all([fetchRecentBlogs(api)]);
+
+        setBlogs(
+          recent.filter(
+            (item) =>  item.status === true
+          )
+        );
       } catch (error) {
-        console.log(error);
+        toast.error("Failed to load blog data.");
       } finally {
         setLoading(false);
       }
     };
-
     const loadMedia = async () => {
       try {
         const allMedia = await getAllMedia(api);
@@ -139,7 +156,7 @@ const Home = () => {
                 onClick={() => navigate(`/blogs/${el.id}`)}
                 className="cursor-pointer transition-all duration-200 hover:pl-3 hover:text-red-600 hover:font-medium"
               >
-                <span className="text-red-600 font-bold">{'>'} </span>
+                <span className="text-red-600 font-bold">{">"} </span>
                 {el.title}
               </li>
             ))}

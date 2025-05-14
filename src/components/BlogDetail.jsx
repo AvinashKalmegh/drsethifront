@@ -7,7 +7,6 @@ import axios from "axios";
 import { fetchRecentBlogs, getBlogById } from "./Admin/Blog/blogApis";
 import { toast } from "react-toastify";
 
-
 const BlogDetail = () => {
   const { blogId } = useParams();
 
@@ -22,44 +21,44 @@ const BlogDetail = () => {
   const navigate = useNavigate();
 
   const handleRecentBlogClick = (id) => {
-  setLoading(true);        // ✅ Show loader
-  navigate(`/blogs/${id}`); // ✅ Triggers route change
-};
-
-useEffect(() => {
-  const fetchBlogData = async () => {
-    setLoading(true);
-    try {
-      const [blogData, recent] = await Promise.all([
-        getBlogById(api, blogId),
-        fetchRecentBlogs(api),
-      ]);
-
-      setTitle(blogData.title || "");
-      setDescription(blogData.description || "");
-      setImage(blogData.image || null);
-
-      const formattedDate = new Date(blogData.created_at).toLocaleDateString(
-        "en-US",
-        { year: "numeric", month: "short", day: "2-digit" }
-      );
-      setDate(formattedDate);
-
-      // ✅ Filter out the current blog from recent list
-setRecentBlogs(
-  recent.filter(
-    (item) => String(item.id) !== String(blogId) && item.status === true
-  )
-);    } catch (error) {
-      toast.error("Failed to load blog data.");
-    } finally {
-      setLoading(false);
-    }
+    setLoading(true); // ✅ Show loader
+    navigate(`/blogs/${id}`); // ✅ Triggers route change
   };
 
-  fetchBlogData();
-}, [api, blogId]);
+  useEffect(() => {
+    const fetchBlogData = async () => {
+      setLoading(true);
+      try {
+        const [blogData, recent] = await Promise.all([
+          getBlogById(api, blogId),
+          fetchRecentBlogs(api),
+        ]);
 
+        setTitle(blogData.title || "");
+        setDescription(blogData.description || "");
+        setImage(blogData.image || null);
+
+        const formattedDate = new Date(blogData.created_at).toLocaleDateString(
+          "en-US",
+          { year: "numeric", month: "short", day: "2-digit" }
+        );
+        setDate(formattedDate);
+
+        // ✅ Filter out the current blog from recent list
+        setRecentBlogs(
+          recent.filter(
+            (item) => String(item.id) !== String(blogId) && item.status === true
+          )
+        );
+      } catch (error) {
+        toast.error("Failed to load blog data.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBlogData();
+  }, [api, blogId]);
 
   if (loading) return <Loader />;
   return (
@@ -115,11 +114,13 @@ setRecentBlogs(
           <h3 className="text-lg font-semibold mb-2">Recent Blogs</h3>
           <div className="space-y-4">
             {recentBlogs.map((item, index) => (
-<div
-  key={index}
-  className="flex gap-3 cursor-pointer"
-  onClick={() => handleRecentBlogClick(item.id)}
->                <img
+              <div
+                key={index}
+                className="flex gap-3 cursor-pointer"
+                onClick={() => handleRecentBlogClick(item.id)}
+              >
+                {" "}
+                <img
                   src={`${imgapi}${item.image}`}
                   alt="Recent Blog"
                   className="w-14 h-14 rounded-md object-cover"

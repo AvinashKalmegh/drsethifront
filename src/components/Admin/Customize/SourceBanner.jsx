@@ -118,7 +118,7 @@ const SourceBanner = () => {
                 Recommended: 1600x600px
               </p>
             </div>
-
+{/* 
             <div>
               <label className="block text-sm font-medium mb-1">Width (%)</label>
               <input
@@ -128,9 +128,9 @@ const SourceBanner = () => {
                 onChange={handleChange}
                 className="w-full border border-gray-300 rounded-md px-3 py-2"
               />
-            </div>
+            </div> */}
 
-            <div>
+            {/* <div>
               <label className="block text-sm font-medium mb-1">Height (px)</label>
               <input
                 type="number"
@@ -139,7 +139,7 @@ const SourceBanner = () => {
                 onChange={handleChange}
                 className="w-full border border-gray-300 rounded-md px-3 py-2"
               />
-            </div>
+            </div> */}
           </div>
 
           <div className="flex justify-end gap-4 mt-6">
