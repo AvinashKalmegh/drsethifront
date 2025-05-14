@@ -24,7 +24,7 @@
     "framer-motion": "^7.10.3",
     "lucide-react": "^0.484.0",
     "or": "^0.2.0",
-    "quill": "^2.0.3",
+    "quill": "^1.3.7",
     "quill-image-uploader": "^1.3.0",
     "quill-table": "^1.0.0",
     "quill-table-ui": "^1.0.7",
