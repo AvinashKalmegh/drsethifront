@@ -82,9 +82,9 @@ const BlogList = () => {
                   <div className="font-semibold text-gray-800">
                     {blog.title}
                   </div>
-                  <div className="text-xs text-gray-500">
+                  {/* <div className="text-xs text-gray-500">
                     Posted by: {blog.author}
-                  </div>
+                  </div> */}
                 </td>
                 <td className="px-4 py-3">
                   <img
