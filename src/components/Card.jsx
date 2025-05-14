@@ -21,7 +21,7 @@ const Card = ({ books,category }) => {
             />
             <h3 className="mt-4 font-semibold">{book.title}</h3>
             <p className="text-sm mt-2">{book.introduction}</p>
-            <button onClick={(()=> navigate(`/media/${book.id}`))} className="mt-4 text-red-600 border border-red-600 px-4 py-1 rounded-full text-sm hover:bg-red-600 hover:text-white">
+            <button onClick={(()=> navigate(`/media/${book.id}`))} className="mt-4 text-red-600 border border-red-600 px-4 py-1 rounded-full text-sm hover:bg-red-600 hover:text-white cursor-pointer">
               Read More →
             </button>
           </div>

@@ -185,7 +185,7 @@ const Navbar = () => {
 
                 {/* About Us */}
                 <a
-                  className="text-base flex justify-between items-center"
+                  className="text-base flex justify-between items-center mt-2"
                   onClick={() => {
                     navigate("/about");
                     toggleMobileMenu();
@@ -196,7 +196,7 @@ const Navbar = () => {
 
                 {/* Products */}
                 <button
-                  className="text-base flex justify-between items-center"
+                  className="cursor-pointer text-base flex justify-between items-center mt-2"
                   onClick={() => setProductsOpen(!productsOpen)}
                 >
                   Media
@@ -252,7 +252,7 @@ const Navbar = () => {
 
                 {/* Services */}
                 <button
-                  className="text-base flex justify-between items-center"
+                  className="cursor-pointer text-base flex justify-between items-center"
                   onClick={() => {navigate("/blogs");
                     toggleMobileMenu();
                     setProductsOpen(false)}}
@@ -266,7 +266,7 @@ const Navbar = () => {
                     navigate("/contact");
                     toggleMobileMenu();
                   }}
-                  className="text-base"
+                  className="text-base mt-2"
                 >
                   Contact
                 </a>

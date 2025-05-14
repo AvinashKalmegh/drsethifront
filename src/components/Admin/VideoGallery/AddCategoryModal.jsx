@@ -9,6 +9,7 @@ export default function AddCategoryModal({ onClose, onSave, editData }) {
   const [title, setTitle] = useState("");
   const [status, setStatus] = useState("Active");
   const { api, adminid } = useContext(MyContext);
+  const [loader, setLoader] = useState(false);
 
   useEffect(() => {
     if (isEdit) {
@@ -66,7 +67,7 @@ export default function AddCategoryModal({ onClose, onSave, editData }) {
               </h3>
               <button
                 onClick={onClose}
-                className="text-lg text-gray-500 hover:text-red-500"
+                className="cursor-pointer text-lg text-gray-500 hover:text-red-500"
               >
                 ✖
               </button>
@@ -112,7 +113,7 @@ export default function AddCategoryModal({ onClose, onSave, editData }) {
             <div className="text-right">
               <button
                 type="submit"
-                className="bg-gradient-to-r from-indigo-500 to-purple-600 hover:to-indigo-700 text-white px-6 py-2 rounded-lg font-medium shadow-md transition-all"
+                className="cursor-pointer bg-gradient-to-r from-indigo-500 to-purple-600 hover:to-indigo-700 text-white px-6 py-2 rounded-lg font-medium shadow-md transition-all"
               >
                 {isEdit ? "Update Category" : "Add Category"}
               </button>

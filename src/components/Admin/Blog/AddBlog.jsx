@@ -13,17 +13,20 @@ export default function AddEditPhoto() {
   const { id, photoId } = useParams();
   const navigate = useNavigate();
   const isEdit = !!photoId;
+  const [loader, setLoader] = useState(false);
 
-  const {api,adminid,tinyapikey} = useContext(MyContext);
+  const { api, adminid, tinyapikey } = useContext(MyContext);
 
-   const modules = {
+  const modules = {
     toolbar: [
-      [{ header: [1, 2, false] }],
-      ["bold", "italic", "underline"],
+      [{ header: [1, 2, 3, false] }],
+      ["bold", "italic", "underline", "strike"],
       [{ list: "ordered" }, { list: "bullet" }],
-      [{ align: [] }], // ✅ alignment options
-      ["link"],
+      [{ align: [] }],
+      ["link", "image"], // ✅ link and image insert
       ["clean"],
+      ["code-block"],
+      ["table"], // needs extra lib to fully support UI buttons
     ],
   };
 
@@ -32,10 +35,14 @@ export default function AddEditPhoto() {
     "bold",
     "italic",
     "underline",
+    "strike",
     "list",
     "bullet",
+    "align",
     "link",
-    "align", // ✅ required to apply align
+    "image",
+    "code-block",
+    "table",
   ];
 
   const [form, setForm] = useState({
@@ -61,7 +68,6 @@ export default function AddEditPhoto() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const formData = new FormData();
     formData.append("title", form.title);
     formData.append("description", form.description);
@@ -73,10 +79,13 @@ export default function AddEditPhoto() {
     }
 
     try {
-      await createBlog(api,formData);
+      setLoader(true);
+      await createBlog(api, formData);
+      setLoader(false);
       toast.success("✅ Blog added successfully!");
       setTimeout(() => navigate("/admin/blog"), 1500); // Slight delay before redirect
     } catch (error) {
+      setLoader(false);
       console.error("Create Blog Error:", error);
       toast.error("❌ Failed to add blog. Please try again.");
     }
@@ -89,8 +98,8 @@ export default function AddEditPhoto() {
       transition={{ duration: 0.5 }}
       className="max-w-4xl mx-auto bg-white p-10 mt-6 rounded-2xl shadow-xl border border-gray-200"
     >
-      <h2 className="text-2xl font-bold text-indigo-800 mb-6">
-        {isEdit ? "Edit Photo" : "Add New Photo"}
+      <h2 className="text-xl font-bold text-indigo-800 mb-6">
+        {isEdit ? "Edit Blog" : "Add New Blog"}
       </h2>
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
@@ -111,31 +120,38 @@ export default function AddEditPhoto() {
           <label className="block text-sm font-semibold text-gray-700 mb-1">
             Description
           </label>
-           <ReactQuill
-                        value={form.description}
-                        onChange={handleEditorChange}
-                        theme="snow"
-                        modules={modules}
-                        formats={formats}
-                        placeholder="Enter description here..."
-                        style={{ height: "200px", marginBottom: "1rem" }}
-                      />
-          {/* <Editor
+          {/* <ReactQuill
+            value={form.description}
+            onChange={handleEditorChange}
+            theme="snow"
+            modules={modules}
+            formats={formats}
+            placeholder="Enter description here..."
+            style={{ height: "250px", marginBottom: "1rem" }}
+          /> */}
+          <Editor
             apiKey={tinyapikey}
             value={form.description}
             init={{
-              height: 300,
-              menubar: false,
-              plugins: "link image code lists",
+              height: 400,
+              menubar: "file edit view insert format",
+              plugins: [
+                "advlist autolink lists link image charmap preview anchor",
+                "searchreplace visualblocks code fullscreen",
+                "insertdatetime media table paste code help wordcount",
+              ],
               toolbar:
-                "undo redo | bold italic | alignleft aligncenter alignright | bullist numlist",
+                "undo redo | formatselect | bold italic underline | alignleft aligncenter alignright alignjustify | " +
+                "bullist numlist outdent indent | link image table | code",
+              content_style:
+                "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
             }}
-            onEditorChange={handleEditorChange}
-          /> */}
+            onEditorChange={(value) => setForm({ ...form, description: value })}
+          />
         </div>
 
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-1">
+          <label className="block text-sm font-semibold text-gray-700 mb-1 mt-20 md:mt-15">
             Upload Photo
           </label>
           <input
@@ -163,11 +179,13 @@ export default function AddEditPhoto() {
 
         <div className="text-right">
           <button
+            disabled={loader}
             onClick={handleSubmit}
             type="submit"
-            className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-6 py-2 rounded-lg font-semibold shadow-md hover:from-indigo-600"
+            className="cursor-pointer bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-6 py-2 rounded-lg font-semibold shadow-md hover:from-indigo-600"
           >
-            {isEdit ? "Update" : "Add"} Photo
+            {" "}
+            {loader ? "Loading..." : `${isEdit ? "Update" : "Add"} Blog`}
           </button>
         </div>
       </form>

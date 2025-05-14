@@ -21,48 +21,45 @@ const BlogDetail = () => {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const loadBlog = async () => {
-      try {
-        const data = await getBlogById(api, blogId);
-        // console.log("blog edit", data);
-        setTitle(data.title || "");
-        setDescription(data.description || "");
-        setImage(data.image || null); // store image path
-        console.log(data);
+  const handleRecentBlogClick = (id) => {
+  setLoading(true);        // ✅ Show loader
+  navigate(`/blogs/${id}`); // ✅ Triggers route change
+};
 
-        const formattedDate = new Date(data.created_at).toLocaleDateString(
-          "en-US",
-          {
-            year: "numeric",
-            month: "short",
-            day: "2-digit",
-          }
-        );
-        setDate(formattedDate);
-      } catch (error) {
-        toast.error("Failed to fetch blog data");
-      } finally {
-        setLoading(false);
-      }
-    };
+useEffect(() => {
+  const fetchBlogData = async () => {
+    setLoading(true);
+    try {
+      const [blogData, recent] = await Promise.all([
+        getBlogById(api, blogId),
+        fetchRecentBlogs(api),
+      ]);
 
+      setTitle(blogData.title || "");
+      setDescription(blogData.description || "");
+      setImage(blogData.image || null);
 
-    const recentBlogs = async () => {
-      try {
-        const data = await fetchRecentBlogs(api);
-       
-        console.log("recent",data);
-        setRecentBlogs(data);
-      } catch (error) {
-        toast.error("Failed to fetch blog data");
-      } finally {
-        setLoading(false);
-      }
-    };
-    recentBlogs();
-    loadBlog();
-  }, [api, blogId]);
+      const formattedDate = new Date(blogData.created_at).toLocaleDateString(
+        "en-US",
+        { year: "numeric", month: "short", day: "2-digit" }
+      );
+      setDate(formattedDate);
+
+      // ✅ Filter out the current blog from recent list
+setRecentBlogs(
+  recent.filter(
+    (item) => String(item.id) !== String(blogId) && item.status === true
+  )
+);    } catch (error) {
+      toast.error("Failed to load blog data.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchBlogData();
+}, [api, blogId]);
+
 
   if (loading) return <Loader />;
   return (
@@ -101,7 +98,7 @@ const BlogDetail = () => {
           </p>
           <h1 className="text-xl font-bold text-red-600 mb-4">{title}</h1>
           <div
-            className="blog-description text-base leading-relaxed"
+            className="blog-description"
             dangerouslySetInnerHTML={{ __html: description }}
           />
         </div>
@@ -118,8 +115,11 @@ const BlogDetail = () => {
           <h3 className="text-lg font-semibold mb-2">Recent Blogs</h3>
           <div className="space-y-4">
             {recentBlogs.map((item, index) => (
-              <div key={index} className="flex gap-3"  onClick={() => navigate(`/blogs/${item.id}`)}>
-                <img
+<div
+  key={index}
+  className="flex gap-3 cursor-pointer"
+  onClick={() => handleRecentBlogClick(item.id)}
+>                <img
                   src={`${imgapi}${item.image}`}
                   alt="Recent Blog"
                   className="w-14 h-14 rounded-md object-cover"

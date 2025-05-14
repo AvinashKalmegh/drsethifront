@@ -1,5 +1,4 @@
 import { useEffect, useContext, useState } from "react";
-// import { Editor } from "@tinymce/tinymce-react";
 import { Tab } from "@headlessui/react";
 import { Plus } from "lucide-react";
 import MyContext from "../../../ContextApi/MyContext";
@@ -11,6 +10,8 @@ import {
 } from "./officeService";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import { Editor } from "@tinymce/tinymce-react";
+import { toast } from "react-toastify";
 
 const Offices = () => {
   const { tinyapikey } = useContext(MyContext);
@@ -18,12 +19,14 @@ const Offices = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [newOffice, setNewOffice] = useState({ name: "", address: "" });
 
+  const {api} = useContext(MyContext);
+
   const modules = {
     toolbar: [
       [{ header: [1, 2, false] }],
       ["bold", "italic", "underline"],
       [{ list: "ordered" }, { list: "bullet" }],
-      [{ align: [] }], // ✅ alignment options
+      [{ align: [] }],
       ["link"],
       ["clean"],
     ],
@@ -37,10 +40,9 @@ const Offices = () => {
     "list",
     "bullet",
     "link",
-    "align", // ✅ required to apply align
+    "align",
   ];
 
-  // Replace with logged-in user ID
   const user_id = 1;
 
   useEffect(() => {
@@ -48,21 +50,35 @@ const Offices = () => {
   }, []);
 
   const fetchOffices = async () => {
-    const res = await getOffices();
-    setOffices(res.data);
+    try {
+      const res = await getOffices(`${api}/offices`);
+      setOffices(res.data);
+    } catch (error) {
+      console.error("Failed to fetch offices:", error);
+      toast.error("Failed to load office data.");
+    }
   };
 
   const handleAddOffice = async () => {
-    if (!newOffice.name.trim()) return;
+    if (!newOffice.name.trim()) {
+      toast.warning("Branch name is required.");
+      return;
+    }
     const data = {
       branch_name: newOffice.name,
       address: newOffice.address,
       user_id,
     };
-    await createOffice(data);
-    await fetchOffices();
-    setNewOffice({ name: "", address: "" });
-    setActiveIndex(offices.length); // Move to newly added tab
+    try {
+      await createOffice(`${api}/offices`, data);
+      await fetchOffices();
+      setNewOffice({ name: "", address: "" });
+      setActiveIndex(offices.length);
+      toast.success("Office added successfully.");
+    } catch (error) {
+      console.error("Add office failed:", error);
+      toast.error("Failed to add office.");
+    }
   };
 
   const handleUpdateOffice = async (index) => {
@@ -71,15 +87,27 @@ const Offices = () => {
       branch_name: office.branch_name,
       address: office.address,
     };
-    await updateOffice(office.id, data);
-    await fetchOffices();
+    try {
+      await updateOffice(`${api}/offices/`, office.id, data);
+      await fetchOffices();
+      toast.success("Office updated successfully.");
+    } catch (error) {
+      console.error("Update office failed:", error);
+      toast.error("Failed to update office.");
+    }
   };
 
   const handleRemoveOffice = async (index) => {
     const id = offices[index].id;
-    await deleteOffice(id);
-    await fetchOffices();
-    setActiveIndex(0);
+    try {
+      await deleteOffice(`${api}/offices/`, id);
+      await fetchOffices();
+      setActiveIndex(0);
+      toast.success("Office removed.");
+    } catch (error) {
+      console.error("Remove office failed:", error);
+      toast.error("Failed to remove office.");
+    }
   };
 
   const handleChangeExisting = (e, index) => {
@@ -105,21 +133,21 @@ const Offices = () => {
   };
 
   return (
-    <div className="min-h-screen p-8 bg-gray-100">
-      <h2 className="text-3xl font-bold text-indigo-800 mb-1">
+    <div className="min-h-screen p-4 sm:p-6 md:p-8 bg-gray-100">
+      <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-indigo-800 mb-1">
         Office Address
       </h2>
-      <p className="text-sm text-gray-600 mb-6">
+      <p className="text-xs sm:text-sm text-gray-600 mb-6">
         Add Registered Offices, Sales Office, Branch Office etc.
       </p>
 
       <Tab.Group selectedIndex={activeIndex} onChange={setActiveIndex}>
-        <Tab.List className="flex gap-2 border-b border-gray-300 pb-2 mb-6">
+        <Tab.List className="flex overflow-x-auto scrollbar-hide gap-2 border-b border-gray-300 pb-2 mb-6">
           {offices.map((_, index) => (
             <Tab
               key={index}
               className={({ selected }) =>
-                `px-4 py-2 rounded-t-md text-sm font-medium border ${
+                `flex-shrink-0 px-4 py-2 rounded-md text-sm font-medium border whitespace-nowrap ${
                   selected
                     ? "bg-indigo-700 text-white border-indigo-700"
                     : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
@@ -129,7 +157,7 @@ const Offices = () => {
               Office {index + 1}
             </Tab>
           ))}
-          <Tab className="px-4 py-2 rounded-t-md text-sm font-medium border bg-white text-gray-700 border-gray-300 hover:bg-gray-100">
+          <Tab className="px-3 sm:px-4 py-2 rounded-t-md text-sm font-medium border bg-white text-gray-700 border-gray-300 hover:bg-gray-100">
             <Plus size={16} className="inline mr-1" />
             Add New
           </Tab>
@@ -138,7 +166,7 @@ const Offices = () => {
         <Tab.Panels>
           {offices.map((office, index) => (
             <Tab.Panel key={office.id}>
-              <div className="bg-white rounded-xl shadow-lg p-6 max-w-3xl mx-auto">
+              <div className="bg-white rounded-xl shadow-md p-4 sm:p-6 max-w-4xl mx-auto">
                 <label className="block text-sm font-medium mb-1">
                   Branch Name *
                 </label>
@@ -152,27 +180,49 @@ const Offices = () => {
                 <label className="block text-sm font-medium mb-1">
                   Address
                 </label>
-                <ReactQuill
-                  value={office.address}
-                  onChange={(content) =>
-                    handleEditorChangeExisting(content, index)
-                  }
-                  theme="snow"
-                  modules={modules}
-                  formats={formats}
-                  placeholder="Enter address here..."
-                  style={{ height: "200px", marginBottom: "1rem" }}
-                />
-                <div className="flex justify-end gap-2 mt-4">
+                <div className="mb-4">
+                  {/* <ReactQuill
+                    value={office.address}
+                    onChange={(content) =>
+                      handleEditorChangeExisting(content, index)
+                    }
+                    theme="snow"
+                    modules={modules}
+                    formats={formats}
+                    placeholder="Enter address here..."
+                  /> */}
+                  <Editor
+                    apiKey={tinyapikey}
+                    value={office.address}
+                    init={{
+                      height: 400,
+                      menubar: "file edit view insert format",
+                      plugins: [
+                        "advlist autolink lists link image charmap preview anchor",
+                        "searchreplace visualblocks code fullscreen",
+                        "insertdatetime media table paste code help wordcount",
+                      ],
+                      toolbar:
+                        "undo redo | formatselect | bold italic underline | alignleft aligncenter alignright alignjustify | " +
+                        "bullist numlist outdent indent | link image table | code",
+                      content_style:
+                        "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+                    }}
+                    onEditorChange={(content) =>
+                      handleEditorChangeExisting(content, index)
+                    }
+                  />
+                </div>
+                <div className="flex flex-wrap gap-3 justify-end mt-4">
                   <button
                     onClick={() => handleRemoveOffice(index)}
-                    className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded text-sm mt-10"
+                    className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded text-sm"
                   >
                     Remove Address
                   </button>
                   <button
                     onClick={() => handleUpdateOffice(index)}
-                    className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded text-sm mt-10"
+                    className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded text-sm"
                   >
                     Update Address
                   </button>
@@ -181,9 +231,8 @@ const Offices = () => {
             </Tab.Panel>
           ))}
 
-          {/* Add New Panel */}
           <Tab.Panel>
-            <div className="bg-white rounded-xl shadow-lg p-6 max-w-3xl mx-auto">
+            <div className="bg-white rounded-xl shadow-md p-4 sm:p-6 max-w-4xl mx-auto">
               <label className="block text-sm font-medium mb-1">
                 Branch Name *
               </label>
@@ -196,19 +245,40 @@ const Offices = () => {
                 placeholder="Ex: Registered Office"
               />
               <label className="block text-sm font-medium mb-1">Address</label>
-              <ReactQuill
-                value={newOffice.address}
-                onChange={handleEditorChangeNew}
-                theme="snow"
-                modules={modules}
-                formats={formats}
-                placeholder="Enter address here..."
-                style={{ height: "200px", marginBottom: "1rem" }}
-              />
-              <div className="text-right mt-4">
+              <div className="mb-4">
+                {/* <ReactQuill
+                  value={newOffice.address}
+                  onChange={handleEditorChangeNew}
+                  theme="snow"
+                  modules={modules}
+                  formats={formats}
+                  placeholder="Enter address here..."
+                /> */}
+<Editor
+                    apiKey={tinyapikey}
+                    value={newOffice.address}
+                    init={{
+                      height: 400,
+                      menubar: "file edit view insert format",
+                      plugins: [
+                        "advlist autolink lists link image charmap preview anchor",
+                        "searchreplace visualblocks code fullscreen",
+                        "insertdatetime media table paste code help wordcount",
+                      ],
+                      toolbar:
+                        "undo redo | formatselect | bold italic underline | alignleft aligncenter alignright alignjustify | " +
+                        "bullist numlist outdent indent | link image table | code",
+                      content_style:
+                        "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+                    }}
+                    onEditorChange={handleEditorChangeNew}
+                  />
+                
+              </div>
+              <div className="text-right">
                 <button
                   onClick={handleAddOffice}
-                  className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded mt-10"
+                  className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded text-sm"
                 >
                   Add Address
                 </button>

@@ -4,56 +4,55 @@ import axios from "axios";
 import MyContext from "../../ContextApi/MyContext";
 import { toast } from "react-toastify";
 import { fetchPhotos } from "../Admin/PhotoGallery/photoApi";
-import photogallery from "../../assets/photogallery.jpg"
+import photogallery from "../../assets/photogallery.jpg";
+import Loader from "../Loader/Loader";
 
 const PhotoGalleryList = () => {
   const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true); // show loader on initial page load
+  const [redirecting, setRedirecting] = useState(false); // show loader on click
   const navigate = useNavigate();
-    const {api, imgapi} = useContext(MyContext)
+  const { api } = useContext(MyContext);
 
   useEffect(() => {
-  const fetchCategories = async () => {
-    try {
-      const res = await axios.get(`${api}/categories/`);
-      setCategories(res.data);
-    //   console.log(res.data)
-    } catch (error) {
-      console.warn("Could not load categories");
-    }
-  };
+    const fetchCategoriesAndPhotos = async () => {
+      try {
+        const [categoryRes, photos] = await Promise.all([
+          axios.get(`${api}/categories/`),
+          fetchPhotos(api),
+        ]);
 
-  fetchCategories();
-}, []);
+        const categoryPhotoCounts = photos.reduce((acc, photo) => {
+          const cat = photo.category;
+          acc[cat] = (acc[cat] || 0) + 1;
+          return acc;
+        }, {});
 
- useEffect(() => {
-  const fetchCategoriesAndPhotos = async () => {
-    try {
-      const [photos] = await Promise.all([
-        fetchPhotos(api)
-      ]);
-
-      const categoryPhotoCounts = photos.reduce((acc, photo) => {
-        const cat = photo.category;
-        acc[cat] = (acc[cat] || 0) + 1;
-        return acc;
-      }, {});
-
-      setCategories((prevCategories) =>
-        prevCategories.map((cat) => ({
+        const updatedCategories = categoryRes.data.map((cat) => ({
           ...cat,
-          photo_count: categoryPhotoCounts[cat.Title] || 0
-        }))
-      );
+          photo_count: categoryPhotoCounts[cat.Title] || 0,
+        }));
+        console.log(updatedCategories)
+        setCategories(updatedCategories.filter((cat)=> cat.Status ==="Active"));
+      } catch (err) {
+        console.error(err);
+        toast.error("Failed to load categories or photos");
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    } catch (err) {
-      console.error(err);
-      toast.error("Failed to load categories or photos");
-    }
+    fetchCategoriesAndPhotos();
+  }, [api]);
+
+  const handleCategoryClick = (title) => {
+    setRedirecting(true);
+    setTimeout(() => {
+      navigate(`/photos/${title}`);
+    }, 300);
   };
 
-  fetchCategoriesAndPhotos();
-}, [api]);
-
+  if (loading || redirecting) return <Loader />;
 
   return (
     <div className="min-h-screen px-4 py-16 bg-white">
@@ -63,13 +62,13 @@ const PhotoGalleryList = () => {
         {categories.map((cat) => (
           <div
             key={cat.id}
-            onClick={() => navigate(`/photos/${cat.Title}`)}
+            onClick={() => handleCategoryClick(cat.Title)}
             className="relative cursor-pointer group overflow-hidden rounded-md shadow-md"
           >
             <img
               src={photogallery}
-              alt={cat.title}
-              className="w-full h-60 object-cover  group-hover:grayscale-0 transition duration-300"
+              alt={cat.Title}
+              className="w-full h-60 object-cover group-hover:grayscale-0 transition duration-300"
             />
             <div className="absolute bottom-0 w-full bg-red-600 text-white text-center py-2">
               <h2 className="text-lg font-semibold">{cat.Title}</h2>

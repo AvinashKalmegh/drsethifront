@@ -15,6 +15,7 @@ const Dashboard = () => {
     email: "",
     country_state: ""
   });
+  const [loader, setLoader] = useState(false);
 
   const {api} = useContext(MyContext);
 
@@ -74,7 +75,7 @@ const Dashboard = () => {
 
           <button
             onClick={updateProfile}
-            className="bg-gradient-to-r from-[#2c2f8c] to-indigo-600 text-white py-2 px-5 rounded-lg text-sm hover:from-indigo-800 transition"
+            className="cursor-pointer bg-gradient-to-r from-[#2c2f8c] to-indigo-600 text-white py-2 px-5 rounded-lg text-sm hover:from-indigo-800 transition"
           >
             Update
           </button>
@@ -111,7 +112,7 @@ const Dashboard = () => {
 
           <button
             onClick={updateProfile}
-            className="bg-gradient-to-r from-[#2c2f8c] to-indigo-600 text-white py-2 px-5 rounded-lg text-sm hover:from-indigo-800 transition"
+            className="cursor-pointer bg-gradient-to-r from-[#2c2f8c] to-indigo-600 text-white py-2 px-5 rounded-lg text-sm hover:from-indigo-800 transition"
           >
             Update
           </button>

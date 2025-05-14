@@ -6,18 +6,28 @@ import DeleteModal from "../DeleteModal";
 import { motion } from "framer-motion";
 import { fetchBlogs, deleteBlog } from "./blogApis";
 import MyContext from "../../../ContextApi/MyContext";
+import { toast } from "react-toastify";
 
 const BlogList = () => {
   const [blogs, setBlogs] = useState([]);
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
+  const [loader, setLoader] = useState(false);
 
   const { api, imgapi } = useContext(MyContext);
 
-  const handleDelete = (id) => {
-    setBlogs((prev) => prev.filter((blog) => blog.id !== id));
-    setIsDeleteModalOpen(false);
+  const handleDelete = async (id) => {
+    try {
+      await deleteBlog(api, id);
+      toast.success(`Blog with deleted successfully`);
+      setBlogs((prev) => prev.filter((blog) => blog.id !== id));
+    } catch (error) {
+      console.error("Failed to delete blog:", error);
+      toast.error(`Failed to delete blog. Please try again.`);
+    } finally {
+      setIsDeleteModalOpen(false);
+    }
   };
 
   useEffect(() => {
@@ -38,10 +48,10 @@ const BlogList = () => {
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="p-6 text-gray-900"
+      className="p-6 text-gray-900 "
     >
       <div className="flex items-center justify-between mb-6 border-b pb-4">
-        <h2 className="text-3xl font-extrabold tracking-tight text-zinc-800 drop-shadow-md">
+        <h2 className="text-xl font-extrabold tracking-tight text-zinc-800 drop-shadow-md">
           📝 Blog Posts
         </h2>
         <Link
@@ -116,7 +126,7 @@ const BlogList = () => {
                   >
                     <Trash2
                       size={18}
-                      className="text-red-600 hover:text-red-800"
+                      className="cursor-pointer text-red-600 hover:text-red-800"
                     />
                   </button>
                 </td>

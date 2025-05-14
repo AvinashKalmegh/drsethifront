@@ -12,6 +12,7 @@ export default function AddEditPhoto() {
   const navigate = useNavigate();
   const isEdit = !!photoId;
   const { api, adminid, imgapi } = useContext(MyContext);
+  const [loader, setLoader] = useState(false);
 
   const [form, setForm] = useState({
     category: category,
@@ -141,7 +142,7 @@ export default function AddEditPhoto() {
         <div className="text-right">
           <button
             type="submit"
-            className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-6 py-2 rounded-lg font-semibold shadow-md hover:from-indigo-600"
+            className="cursor-pointer bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-6 py-2 rounded-lg font-semibold shadow-md hover:from-indigo-600"
           >
             {isEdit ? 'Update' : 'Add'} Photo
           </button>

@@ -8,9 +8,13 @@ import MyContext from "../../../ContextApi/MyContext";
 import { toast } from "react-toastify";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import Loader from "../../Loader/Loader";
 
-const EditBlog = ({ isEdit = false}) => {
+const EditBlog = ({ isEdit = false }) => {
   const navigate = useNavigate();
+  const [loader, setLoader] = useState(false);
+  const [mainLoader, setMainLoader] = useState(false);
+
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [image, setImage] = useState(null);
@@ -28,40 +32,50 @@ const EditBlog = ({ isEdit = false}) => {
     }
 
     try {
+      setLoader(true);
       await updateBlog(api, blogId, formData);
+      setLoader(false);
+      setTimeout(() => navigate("/admin/blog"), 300);
       toast.success("✅ Blog updated successfully!");
-      setTimeout(() => navigate("/admin/blog"), 1500);
     } catch (error) {
+      setLoader(false);
       toast.error("❌ Failed to update blog");
       console.error(error);
     }
   };
 
- useEffect(() => {
-  const loadBlog = async () => {
-    try {
-      const data = await getBlogById(api, blogId);
-      console.log("blog edit", data);
-      setTitle(data.title || "");
-      setContent(data.description || "");
-      setStatus(data.status === true); // ensure boolean
-      setImage(data.image || null); // store image path
-    } catch (error) {
-      toast.error("Failed to fetch blog data");
-    }
-  };
+  useEffect(() => {
+    const loadBlog = async () => {
+      try {
+        setMainLoader(true);
+        const data = await getBlogById(api, blogId);
+        setMainLoader(false);
+        console.log("blog edit", data);
+        setTitle(data.title || "");
+        setContent(data.description || "");
+        setStatus(data.status === true); // ensure boolean
+        setImage(data.image || null); // store image path
+      } catch (error) {
+        setMainLoader(false);
+        toast.error("Failed to fetch blog data");
+      }
+    };
 
-  if (isEdit) loadBlog();
-}, [api, blogId, isEdit]);
+    if (isEdit) loadBlog();
+  }, [api, blogId, isEdit]);
 
- const modules = {
+  if (mainLoader) return <Loader />;
+
+  const modules = {
     toolbar: [
-      [{ header: [1, 2, false] }],
-      ["bold", "italic", "underline"],
+      [{ header: [1, 2, 3, false] }],
+      ["bold", "italic", "underline", "strike"],
       [{ list: "ordered" }, { list: "bullet" }],
-      [{ align: [] }], // ✅ alignment options
-      ["link"],
+      [{ align: [] }],
+      ["link", "image"], // ✅ link and image insert
       ["clean"],
+      ["code-block"],
+      ["table"], // needs extra lib to fully support UI buttons
     ],
   };
 
@@ -70,12 +84,15 @@ const EditBlog = ({ isEdit = false}) => {
     "bold",
     "italic",
     "underline",
+    "strike",
     "list",
     "bullet",
+    "align",
     "link",
-    "align", // ✅ required to apply align
+    "image",
+    "code-block",
+    "table",
   ];
-
 
   return (
     <motion.div
@@ -84,7 +101,7 @@ const EditBlog = ({ isEdit = false}) => {
       transition={{ duration: 0.4 }}
       className="p-6 text-gray-900"
     >
-      <h2 className="text-3xl font-bold text-indigo-800 mb-6">
+      <h2 className="text-xl font-bold text-indigo-800 mb-6">
         {isEdit ? "Update" : "Add"} Blog
       </h2>
 
@@ -105,31 +122,50 @@ const EditBlog = ({ isEdit = false}) => {
             <label className="block text-sm font-medium mb-2">
               Description
             </label>
-              <ReactQuill
-                                    value={content}
-                                    onChange={(newValue) => setContent(newValue)}
-                                    theme="snow"
-                                    modules={modules}
-                                    formats={formats}
-                                    placeholder="Enter description here..."
-                                    style={{ height: "200px", marginBottom: "1rem" }}
-                                  />
-            {/* <Editor
+            {/* <ReactQuill
+              value={content}
+              onChange={(newValue) => setContent(newValue)}
+              theme="snow"
+              modules={modules}
+              formats={formats}
+              placeholder="Enter description here..."
+              style={{ height: "200px", marginBottom: "1rem" }}
+            /> */}
+            {/* <ReactQuill
+                      value={content}
+                      onChange={(newValue) => setContent(newValue)}
+                      theme="snow"
+                      modules={modules}
+                      formats={formats}
+                      placeholder="Enter description here..."
+                      style={{ height: "250px", marginBottom: "1rem" }}
+                    /> */}
+
+            <Editor
               apiKey={tinyapikey}
               value={content}
               init={{
-                height: 300,
-                menubar: false,
-                plugins: "link image code lists",
+                height: 400,
+                menubar: "file edit view insert format",
+                plugins: [
+                  "advlist autolink lists link image charmap preview anchor",
+                  "searchreplace visualblocks code fullscreen",
+                  "insertdatetime media table paste code help wordcount",
+                ],
                 toolbar:
-                  "undo redo | bold italic | alignleft aligncenter alignright | bullist numlist",
+                  "undo redo | formatselect | bold italic underline | alignleft aligncenter alignright alignjustify | " +
+                  "bullist numlist outdent indent | link image table | code",
+                content_style:
+                  "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
               }}
               onEditorChange={(newValue) => setContent(newValue)}
-            /> */}
+            />
           </div>
 
           <div>
-            <label className="block text-sm font-medium mb-2 mt-15">Status *</label>
+            <label className="block text-sm font-medium mb-2 mt-20 md:mt-15">
+              Status *
+            </label>
             <div className="flex gap-6">
               <label className="flex items-center gap-2">
                 <input
@@ -157,10 +193,10 @@ const EditBlog = ({ isEdit = false}) => {
           </div>
 
           <button
-            className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-6 py-2 rounded-lg font-semibold shadow hover:from-indigo-700"
+            className="cursor-pointer bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-6 py-2 rounded-lg font-semibold shadow hover:from-indigo-700"
             onClick={handleSubmit}
           >
-            {isEdit ? "Update Blog" : "Add Blog"}
+            {loader ? "Loading..." : `${isEdit ? "Update" : "Add"} Blog`}
           </button>
         </div>
 

@@ -16,7 +16,7 @@ const Blogs = () => {
     const fetchBlogData = async () => {
       try {
         const res = await axios.get(`${api}/blogs/`);
-        setBlogs(res.data);
+          setBlogs(res.data.filter((blog) => blog.status === true));
         console.log(res.data);
       } catch (error) {
         console.log(error);

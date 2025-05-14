@@ -14,6 +14,7 @@ const Users = () => {
   const [selectedUserId, setSelectedUserId] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isResetOpen, setIsResetOpen] = useState(false);
+  const [loader, setLoader] = useState(false);
 
   const {api} = useContext(MyContext)
 
@@ -62,12 +63,12 @@ const Users = () => {
       className="p-6 text-gray-900"
     >
       <div className="flex items-center justify-between mb-6 border-b pb-4">
-        <h2 className="text-3xl font-extrabold tracking-tight text-zinc-800 drop-shadow-md">
+        <h2 className="text-xl font-extrabold tracking-tight text-zinc-800 drop-shadow-md">
           👤 Users
         </h2>
         <button
           onClick={() => setIsModalOpen(true)}
-          className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-indigo-700 text-white px-5 py-2.5 rounded-lg font-semibold shadow-md transition"
+          className="cursor-pointer inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-indigo-700 text-white px-5 py-2.5 rounded-lg font-semibold shadow-md transition"
         >
           <PlusCircle className="w-5 h-5" /> Add User
         </button>
@@ -98,7 +99,7 @@ const Users = () => {
                       setSelectedUserId(user.id);
                       setIsResetOpen(true);
                     }}
-                    className="text-indigo-600 hover:text-indigo-800"
+                    className="cursor-pointer text-indigo-600 hover:text-indigo-800"
                   >
                     <Pencil size={18} />
                   </button>

@@ -11,6 +11,7 @@ export default function PhotoList() {
   const navigate = useNavigate();
   const [photos, setPhotos] = useState([]);
   const { api, imgapi } = useContext(MyContext);
+  const [loader, setLoader] = useState(false);
 
   const {category} = useParams();
 
@@ -39,12 +40,12 @@ export default function PhotoList() {
       className="space-y-6"
     >
       <div className="flex justify-between items-center border-b pb-4">
-        <h2 className="text-3xl font-extrabold tracking-tight text-zinc-800 drop-shadow-sm">
-          📸 Photo Gallery - {category}
+        <h2 className="text-xl font-extrabold tracking-tight text-zinc-800 drop-shadow-sm">
+          Photo Gallery - {category}
         </h2>
         <button
           onClick={() => navigate(`/admin/photo-gallery/add/${category}`)}
-          className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-indigo-700 text-white px-5 py-2.5 rounded-xl font-semibold shadow-md transition"
+          className="cursor-pointer inline-flex items-center gap-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-indigo-700 text-white px-5 py-2.5 rounded-xl font-semibold shadow-md transition"
         >
           <PlusCircle className="w-5 h-5" /> Add Photo
         </button>
@@ -70,13 +71,13 @@ export default function PhotoList() {
               </span>
               <div className="space-x-3">
                 <button
-                  className="text-indigo-600 hover:text-indigo-800"
+                  className="cursor-pointer text-indigo-600 hover:text-indigo-800"
                   onClick={() => navigate(`/admin/photo-gallery/edit/${photo.id}`)}
                 >
                   ✏️
                 </button>
                 <button
-                  className="text-red-500 hover:text-red-700"
+                  className="cursor-pointer text-red-500 hover:text-red-700"
                   onClick={() => handleDelete(photo.id)}
                 >
                   🗑️

@@ -21,7 +21,7 @@ const Footer = () => {
   }, []);
 
   return (
-    <footer className="fixed  bg-cover bg-center bottom-0 bg-white text-black px-6 py-10 text-sm relative z-10">
+    <footer className="fixed  bg-cover bg-center bottom-0 bg-white text-black px-6 py-10 text-sm relative z-10 mt-20">
       <div className=" max-w-7xl mx-auto flex flex-col md:flex-row justify-center  items-center md:items-center gap-5 md:gap-50">
         {/* Contact Section */}
         <div className="space-y-2 text-center md:text-left lg:text-left">

@@ -5,6 +5,7 @@ import MyContext from "../../../ContextApi/MyContext";
 
 const Banner = () => {
   const { api, imgapi } = useContext(MyContext);
+  const [loader, setLoader] = useState(false);
 
   const [form, setForm] = useState({
     title: "",
@@ -91,7 +92,7 @@ const Banner = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-white to-indigo-50 p-8">
-      <h2 className="text-3xl font-bold text-indigo-800 mb-2">Home Banner</h2>
+      <h2 className="text-xl font-bold text-indigo-800 mb-2">Home Banner</h2>
       <p className="text-sm text-gray-600 mb-8">
         <span className="text-indigo-600">Customize</span> / Home Banner
       </p>
@@ -179,14 +180,14 @@ const Banner = () => {
           <div className="flex justify-end gap-4 mt-6">
             <button
               type="submit"
-              className="inline-flex items-center gap-2 bg-indigo-600 text-white px-5 py-2 rounded-md hover:bg-indigo-700 transition"
+              className="cursor-pointer inline-flex items-center gap-2 bg-indigo-600 text-white px-5 py-2 rounded-md hover:bg-indigo-700 transition"
             >
               <UploadCloud size={18} /> Update
             </button>
             <button
               type="button"
               onClick={handleReset}
-              className="inline-flex items-center gap-2 bg-gray-600 text-white px-5 py-2 rounded-md hover:bg-gray-700 transition"
+              className="cursor-pointer inline-flex items-center gap-2 bg-gray-600 text-white px-5 py-2 rounded-md hover:bg-gray-700 transition"
             >
               <RefreshCw size={18} /> Reset
             </button>

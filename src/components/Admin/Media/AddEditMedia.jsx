@@ -28,7 +28,7 @@ export default function AddEditMedia() {
   });
   const isEdit = !!mediaId;
 
-   const modules = {
+  const modules = {
     toolbar: [
       [{ header: [1, 2, false] }],
       ["bold", "italic", "underline"],
@@ -205,7 +205,7 @@ export default function AddEditMedia() {
               Description
             </label>
 
-            <ReactQuill
+            {/* <ReactQuill
               value={form.description}
               onChange={(content) =>
                 setForm((prev) => ({ ...prev, description: content }))
@@ -215,6 +215,27 @@ export default function AddEditMedia() {
               formats={formats}
               placeholder="Enter description here..."
               style={{ height: "200px", marginBottom: "1rem" }}
+            /> */}
+            <Editor
+              apiKey={tinyapikey}
+              value={form.description}
+              init={{
+                height: 400,
+                menubar: "file edit view insert format",
+                plugins: [
+                  "advlist autolink lists link image charmap preview anchor",
+                  "searchreplace visualblocks code fullscreen",
+                  "insertdatetime media table paste code help wordcount",
+                ],
+                toolbar:
+                  "undo redo | formatselect | bold italic underline | alignleft aligncenter alignright alignjustify | " +
+                  "bullist numlist outdent indent | link image table | code",
+                content_style:
+                  "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+              }}
+              onEditorChange={(content) =>
+                setForm((prev) => ({ ...prev, description: content }))
+              }
             />
             {/* <Editor
               apiKey={tinyapikey} // Optional, safe to leave blank in dev
@@ -239,7 +260,7 @@ export default function AddEditMedia() {
           </div>
 
           <div className="text-right">
-            <button className="mt-8 bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-md shadow font-semibold">
+            <button className="cursor-pointer mt-8 bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-md shadow font-semibold">
               Submit
             </button>
           </div>

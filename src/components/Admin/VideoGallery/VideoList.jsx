@@ -12,6 +12,7 @@ export default function VideoList() {
   const navigate = useNavigate();
   const { api } = useContext(MyContext);
   const [videos, setVideos] = useState([]);
+  const [loader, setLoader] = useState(false);
 
   useEffect(() => {
     const loadVideos = async () => {
@@ -56,12 +57,12 @@ export default function VideoList() {
       className="space-y-6"
     >
       <div className="flex justify-between items-center border-b pb-4">
-        <h2 className="text-3xl font-extrabold tracking-tight text-zinc-800 drop-shadow-sm">
-          🎥 Video Gallery - {id}
+        <h2 className="text-xl font-extrabold tracking-tight text-zinc-800 drop-shadow-sm">
+          Video Gallery - {id}
         </h2>
         <button
           onClick={() => navigate(`/admin/video-gallery/${id}/add`)}
-          className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-indigo-700 text-white px-5 py-2.5 rounded-xl font-semibold shadow-md transition"
+          className="cursor-pointer inline-flex items-center gap-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-indigo-700 text-white px-5 py-2.5 rounded-xl font-semibold shadow-md transition"
         >
           <PlusCircle className="w-5 h-5" /> Add Video
         </button>
@@ -91,7 +92,7 @@ export default function VideoList() {
               </span>
               <div className="space-x-3">
                 <button
-                  className="text-indigo-600 hover:text-indigo-800"
+                  className="cursor-pointer text-indigo-600 hover:text-indigo-800"
                   onClick={() =>
                     navigate(`/admin/video-gallery/edit/${video.id}`)
                   }
@@ -99,7 +100,7 @@ export default function VideoList() {
                   ✏️
                 </button>
                 <button
-                  className="text-red-500 hover:text-red-700"
+                  className="cursor-pointer text-red-500 hover:text-red-700"
                   onClick={() => handleDelete(video.id)}
                 >
                   🗑️
@@ -114,7 +115,7 @@ export default function VideoList() {
         <div className="text-right mt-4">
           <button
             onClick={() => setVideos([])}
-            className="bg-red-500 hover:bg-red-600 text-white px-5 py-2.5 rounded-lg font-semibold shadow"
+            className="cursor-pointer bg-red-500 hover:bg-red-600 text-white px-5 py-2.5 rounded-lg font-semibold shadow"
           >
             🗑️ Delete All Videos
           </button>

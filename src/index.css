@@ -6,3 +6,69 @@ body {
   font-family: 'Open Sans', Arial, sans-serif;
 }
 
+
+/* support Quill's dynamic alignment in rendered HTML */
+.ql-align-right {
+  text-align: right;
+}
+.ql-align-center {
+  text-align: center;
+}
+.ql-align-justify {
+  text-align: justify;
+}
+.ql-align-left {
+  text-align: left;
+}
+
+
+
+/* Lists */
+.ql-editor ol,
+.ql-editor ul {
+  padding-left: 1.5rem;
+  margin: 1rem 0;
+}
+.ql-editor li {
+  margin-bottom: 0.5rem;
+}
+
+
+.blog-description ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin: 1rem 0;
+}
+
+.blog-description ol {
+  list-style-type: decimal;
+  padding-left: 1.5rem;
+  margin: 1rem 0;
+}
+
+.blog-description li {
+  margin-bottom: 0.5rem;
+}
+
+
+.ql-editor table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  font-size: 14px;
+}
+
+.ql-editor th,
+.ql-editor td {
+  border: 1px solid #ccc;
+  padding: 8px 12px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.ql-editor th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+

@@ -1,10 +1,10 @@
 import axios from "axios";
 
-const API_BASE = "http://localhost:8000/api/offices/";
+// const API_BASE = "http://localhost:8000/api/offices/";
 
-export const getOffices = () => axios.get(API_BASE);
+export const getOffices = (API_BASE) => axios.get(API_BASE);
 
-export const createOffice = (data) => {
+export const createOffice = (API_BASE,data) => {
   const formData = new FormData();
   formData.append("branch_name", data.branch_name);
   formData.append("address", data.address);
@@ -17,7 +17,7 @@ export const createOffice = (data) => {
   });
 };
 
-export const updateOffice = (id, data) => {
+export const updateOffice = (API_BASE,id, data) => {
   const formData = new FormData();
   formData.append("branch_name", data.branch_name);
   formData.append("address", data.address);
@@ -29,4 +29,4 @@ export const updateOffice = (id, data) => {
   });
 };
 
-export const deleteOffice = (id) => axios.delete(`${API_BASE}${id}/`);
+export const deleteOffice = (API_BASE,id) => axios.delete(`${API_BASE}${id}/`);

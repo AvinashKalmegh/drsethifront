@@ -154,7 +154,7 @@ export default function AddEditVideo() {
         <div className="text-right">
           <button
             type="submit"
-            className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-6 py-2 rounded-lg font-semibold shadow-md hover:from-indigo-600"
+            className="cursor-pointer bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-6 py-2 rounded-lg font-semibold shadow-md hover:from-indigo-600"
           >
             {isEdit ? 'Update' : 'Add'} Video
           </button>

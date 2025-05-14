@@ -10,10 +10,12 @@ const AdminLogin = () => {
   const [password, setPassword] = useState("");
   const {api} = useContext(MyContext);
   const navigate = useNavigate();
+  const [loader, setLoader] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
+        setLoader(true);
       const response = await axios.post(`${api}/login/`, {
         email:username,
         password,
@@ -21,6 +23,7 @@ const AdminLogin = () => {
 
       const data = response.data.user;
       console.log(data)
+      setLoader(false)
 
       // ✅ Save token or user data as needed
       localStorage.setItem("adminToken", "true"); // simulate token
@@ -34,6 +37,7 @@ const AdminLogin = () => {
 
 
     } catch (error) {
+        setLoader(false);
       console.error(error);
       if (error.response && error.response.data) {
         const errors = error.response.data;
@@ -78,10 +82,11 @@ const AdminLogin = () => {
             className="w-full p-2 mb-6 rounded bg-white/80 placeholder-gray-600 text-black focus:outline-none"
           />
           <button
+          disabled={loader}
             type="submit"
-            className="w-full bg-blue-900 text-white py-2 rounded hover:bg-blue-800 transition"
+            className="cursor-pointer w-full bg-blue-900 text-white py-2 rounded hover:bg-blue-800 transition"
           >
-            Login
+           {loader ? "Loading..." : "Login"} 
           </button>
         </form>
       </div>

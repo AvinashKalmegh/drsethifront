@@ -12,6 +12,7 @@ export default function MediaList() {
   const navigate = useNavigate();
   const { api, imgapi } = useContext(MyContext);
   const [media, setMedia] = useState([]);
+  const [loader, setLoader] = useState(false);
 
   useEffect(() => {
     const loadMedia = async () => {
@@ -52,7 +53,7 @@ return (
       </h2>
       <button
         onClick={() => navigate(`/admin/media-gallery/add/${mediaCategory}`)}
-        className="flex items-center gap-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-indigo-700 text-white px-4 py-2 rounded-lg shadow font-semibold"
+        className="cursor-pointer flex items-center gap-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-indigo-700 text-white px-4 py-2 rounded-lg shadow font-semibold"
       >
         <PlusCircle className="w-5 h-5" /> Add Media
       </button>
@@ -97,13 +98,13 @@ return (
                 <td className="px-4 py-3 space-x-3 text-lg">
                   <button
                     onClick={() => navigate(`/admin/media-gallery/edit/${item.id}`)}
-                    className="text-indigo-600 hover:text-indigo-800"
+                    className="cursor-pointer text-indigo-600 hover:text-indigo-800"
                   >
                     ✏️
                   </button>
                   <button
                     onClick={() => handleDelete(item.id)}
-                    className="text-red-600 hover:text-red-800"
+                    className="cursor-pointer text-red-600 hover:text-red-800"
                   >
                     🗑️
                   </button>

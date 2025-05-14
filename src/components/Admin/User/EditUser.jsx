@@ -8,6 +8,7 @@ const EditUser = ({ isOpen, onClose, onSave }) => {
     newPassword: '',
     confirmPassword: '',
   });
+  const [loader, setLoader] = useState(false);
 
   const [error, setError] = useState('');
 
@@ -54,7 +55,7 @@ const EditUser = ({ isOpen, onClose, onSave }) => {
           >
             <button
               onClick={onClose}
-              className="absolute top-4 right-4 text-gray-600 hover:text-red-500 transition"
+              className="cursor-pointer absolute top-4 right-4 text-gray-600 hover:text-red-500 transition"
             >
               <X size={22} />
             </button>
@@ -93,7 +94,7 @@ const EditUser = ({ isOpen, onClose, onSave }) => {
             <div className="text-right mt-6">
               <button
                 onClick={handleSubmit}
-                className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-6 py-2 rounded-lg font-semibold shadow-md hover:from-indigo-700"
+                className="cursor-pointer bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-6 py-2 rounded-lg font-semibold shadow-md hover:from-indigo-700"
               >
                 Save Password
               </button>

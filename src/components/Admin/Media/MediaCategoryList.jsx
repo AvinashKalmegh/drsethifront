@@ -17,6 +17,7 @@ import ConfirmDeleteModal from "./ConfirmDelete";
 export default function MediaCategoryList() {
   const navigate = useNavigate();
   const { api } = useContext(MyContext);
+  const [loader, setLoader] = useState(false);
 
   const [categories, setCategories] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -95,15 +96,15 @@ export default function MediaCategoryList() {
       className="space-y-6"
     >
       <div className="flex justify-between items-center border-b pb-4">
-        <h2 className="text-3xl font-extrabold tracking-tight text-zinc-800 drop-shadow-md">
-          🖼️ Media Gallery Categories
+        <h2 className="text-xl font-extrabold tracking-tight text-zinc-800 drop-shadow-md">
+         Media Gallery Categories
         </h2>
         <button
           onClick={() => {
             setEditCategory(null);
             setShowModal(true);
           }}
-          className="inline-flex items-center gap-2 bg-gradient-to-r from-indigo-500 to-purple-600 hover:to-indigo-700 text-white px-5 py-2.5 rounded-xl font-semibold shadow-lg transition-all"
+          className="cursor-pointer inline-flex items-center gap-2 bg-gradient-to-r from-indigo-500 to-purple-600 hover:to-indigo-700 text-white px-3 py-1 md:px-5 md:py-2.5  rounded-xl font-semibold shadow-lg transition-all"
         >
           <PlusCircle className="w-5 h-5" /> Add Category
         </button>
@@ -158,12 +159,12 @@ export default function MediaCategoryList() {
                       setEditCategory(cat);
                       setShowModal(true);
                     }}
-                    className="text-indigo-600 hover:text-indigo-900 text-lg"
+                    className="cursor-pointer text-indigo-600 hover:text-indigo-900 text-lg"
                   >
                     ✏️
                   </button>
                   <button
-                    className="text-red-600 hover:text-red-800 text-lg"
+                    className="cursor-pointer text-red-600 hover:text-red-800 text-lg"
                     onClick={() => setDeleteTarget(cat)}
                   >
                     🗑️

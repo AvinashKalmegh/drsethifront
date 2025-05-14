@@ -2,9 +2,12 @@ import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import MyContext from "../../ContextApi/MyContext";
-import thumbnail from "../../assets/videogallery.png"
+import thumbnail from "../../assets/videogallery.png";
+import Loader from "../Loader/Loader";
 
 const VideoGalleryListUi = () => {
+  const [loading, setLoading] = useState(false);
+
   const [categories, setCategories] = useState([]);
   const navigate = useNavigate();
   const { api } = useContext(MyContext);
@@ -12,12 +15,22 @@ const VideoGalleryListUi = () => {
   useEffect(() => {
     const getVideoCategories = async () => {
       const res = await axios.get(`${api}/video-categories/`);
-      console.log(res)
-      setCategories(res.data);
+      console.log(res);
+      
+      setCategories(res.data.filter((cat)=> cat.Status === "Active"));
     };
 
     getVideoCategories();
   }, []);
+
+  const handleCategoryClick = (title) => {
+    setLoading(true);
+    setTimeout(() => {
+      navigate(`/videos/${title}`);
+    }, 300); // optional delay for smoother UX
+  };
+
+  if (loading) return <Loader />;
 
   return (
     <div className="min-h-screen px-4 py-16 bg-white">
@@ -27,7 +40,7 @@ const VideoGalleryListUi = () => {
         {categories.map((cat) => (
           <div
             key={cat.id}
-            onClick={() => navigate(`/videos/${cat.Title}`)}
+            onClick={() => handleCategoryClick(cat.Title)}
             className="relative cursor-pointer group overflow-hidden rounded-md shadow-md"
           >
             <img
