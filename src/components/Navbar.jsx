@@ -58,11 +58,11 @@ const Navbar = () => {
             src={logo}
             alt="Logo"
             className={`transition-all duration-500 w-auto 
-                ${
-                  isScrolled
-                    ? "h-[50px] md:h-[60px] lg:h-[70px]"
-                    : "h-[55px] md:h-[80px] lg:h-[85px]"
-                }`}
+    ${
+      isScrolled
+        ? "h-[65px] md:h-[60px] lg:h-[70px] contrast-225 brightness-110"
+        : "h-[75px] md:h-[80px] lg:h-[85px] contrast-225 brightness-110"
+    }`}
           />
         </Link>
 
@@ -71,7 +71,7 @@ const Navbar = () => {
           <li>
             <Link
               to="/"
-              className="text-red-600 text-[16px] font-normal hover:text-[#2fa3dc] transition-all duration-300"
+              className="text-red-600 text-[16px] font-semibold hover:text-[#2fa3dc] transition-all duration-300"
             >
               Home
             </Link>
@@ -79,13 +79,16 @@ const Navbar = () => {
 
           {/* Dropdown Menu on Hover */}
           <li className="relative group">
-            <Link to="/about" className="text-red-600 font-normal flex items-center hover:text-[#2fa3dc] transition-all duration-300">
+            <Link
+              to="/about"
+              className="text-red-600 font-semibold flex items-center hover:text-[#2fa3dc] transition-all duration-300"
+            >
               About
             </Link>
           </li>
 
           <li className="relative group">
-            <button className="text-red-600 font-normal flex items-center hover:text-[#2fa3dc] transition-all duration-300 cursor-pointer">
+            <button className="text-red-600 font-semibold flex items-center hover:text-[#2fa3dc] transition-all duration-300 cursor-pointer">
               Media
             </button>
             <ul className="absolute mt-2 w-40 bg-red-600 border border-gray-700 shadow-lg rounded-md z-40 opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-all duration-200">
@@ -124,14 +127,17 @@ const Navbar = () => {
             </ul>
           </li>
           <li className="relative group">
-            <Link to="/blogs" className="text-red-600 font-normal flex items-center hover:text-[#2fa3dc] transition-all duration-300">
+            <Link
+              to="/blogs"
+              className="text-red-600 font-semibold flex items-center hover:text-[#2fa3dc] transition-all duration-300"
+            >
               Blogs
             </Link>
           </li>
           <li>
             <Link
               to="/contact"
-              className="text-red-600 text-[16px] font-normal hover:text-[#2fa3dc] transition-all duration-300"
+              className="text-red-600 text-[16px] font-semibold hover:text-[#2fa3dc] transition-all duration-300"
             >
               Contact Us
             </Link>
@@ -253,9 +259,11 @@ const Navbar = () => {
                 {/* Services */}
                 <button
                   className="cursor-pointer text-base flex justify-between items-center"
-                  onClick={() => {navigate("/blogs");
+                  onClick={() => {
+                    navigate("/blogs");
                     toggleMobileMenu();
-                    setProductsOpen(false)}}
+                    setProductsOpen(false);
+                  }}
                 >
                   Blogs
                 </button>
@@ -311,186 +319,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
-// import { Link } from "react-router-dom";
-// import logo from "../assets/logo.png";
-
-// const Navbar = () => {
-//   return (
-//     <nav className="bg-black shadow-md position-fixed">
-//       <div className="max-w-7xl mx-auto px-20 py-3 flex items-center justify-between">
-//         {/* Logo */}
-//         <a href="/index.html">
-//           <img src={logo} alt="Logo" className="h-20 w-90" />
-//         </a>
-
-//         {/* Navigation Links */}
-//         <ul className="flex items-center gap-6">
-//           <li>
-//             <Link
-//               to="/"
-//               className="text-red-600 font-normal hover:text-blue-600"
-//             >
-//               Home
-//             </Link>
-//           </li>
-
-//           {/* Dropdown Menu on Hover */}
-//           <li className="relative group">
-//             <button className="text-red-600 font-normal flex items-center">
-//               About Us
-//             </button>
-//             <ul className="absolute mt-2 w-40 bg-red-600 border border-gray-700 shadow-lg rounded-md z-10 opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-all duration-200">
-//               <li>
-//                 <a
-//                   href="/page/introduction.html"
-//                   className="block px-4 py-2 text-white hover:bg-gray-800"
-//                 >
-//                   Introduction
-//                 </a>
-//               </li>
-//               <li>
-//                 <a
-//                   href="/page/mission.html"
-//                   className="block px-4 py-2 text-white hover:bg-gray-800"
-//                 >
-//                   Mission
-//                 </a>
-//               </li>
-//               <li>
-//                 <a
-//                   href="/page/mission.html"
-//                   className="block px-4 py-2 text-white hover:bg-gray-800"
-//                 >
-//                   Vision
-//                 </a>
-//               </li>
-//             </ul>
-//           </li>
-
-//           <li className="relative group">
-//             <button className="text-red-600 font-normal flex items-center">
-//               Products
-//             </button>
-//             <ul className="absolute mt-2 w-50 bg-red-600 border border-gray-700 shadow-lg rounded-md z-10 opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-all duration-200">
-//               <li>
-//                 <a
-//                   href="/page/introduction.html"
-//                   className="block px-4 py-2 text-white hover:bg-gray-800"
-//                 >
-//                   Intelligent HR Solutions
-//                 </a>
-//               </li>
-//               <li>
-//                 <a
-//                   href="/page/mission.html"
-//                   className="block px-4 py-2 text-white hover:bg-gray-800"
-//                 >
-//                   Knowledge Portals
-//                 </a>
-//               </li>
-//               <li>
-//                 <a
-//                   href="/page/mission.html"
-//                   className="block px-4 py-2 text-white hover:bg-gray-800"
-//                 >
-//                   Smart Health
-//                 </a>
-//               </li>
-//             </ul>
-//           </li>
-//           <li className="relative group">
-//             <button className="text-red-600 font-normal flex items-center">
-//               Services
-//             </button>
-//             <ul className="absolute mt-2 w-50 bg-red-600 border border-gray-700 shadow-lg rounded-md z-10 opacity-0 group-hover:opacity-100 invisible group-hover:visible transition-all duration-200">
-//               <li>
-//                 <a
-//                   href="/page/introduction.html"
-//                   className="block px-4 py-2 text-white hover:bg-gray-800"
-//                 >
-//                   AS400/IBMi Services
-//                 </a>
-//               </li>
-//               <li>
-//                 <a
-//                   href="/page/mission.html"
-//                   className="block px-4 py-2 text-white hover:bg-gray-800"
-//                 >
-//                   Staffing Services
-//                 </a>
-//               </li>
-//               <li>
-//                 <a
-//                   href="/page/mission.html"
-//                   className="block px-4 py-2 text-white hover:bg-gray-800"
-//                 >
-//                   Architecture Analysis
-//                 </a>
-//               </li>
-//               <li>
-//                 <a
-//                   href="/page/mission.html"
-//                   className="block px-4 py-2 text-white hover:bg-gray-800"
-//                 >
-//                   Cyber Resiliency
-//                 </a>
-//               </li>
-//               <li>
-//                 <a
-//                   href="/page/mission.html"
-//                   className="block px-4 py-2 text-white hover:bg-gray-800"
-//                 >
-//                   Data Management
-//                 </a>
-//               </li>
-
-//               <li>
-//                 <a
-//                   href="/page/mission.html"
-//                   className="block px-4 py-2 text-white hover:bg-gray-800"
-//                 >
-//                   Digital Transformation
-//                 </a>
-//               </li>
-//               <li>
-//                 <a
-//                   href="/page/mission.html"
-//                   className="block px-4 py-2 text-white hover:bg-gray-800"
-//                 >
-//                   Enterprise Applications
-//                 </a>
-//               </li>
-//               <li>
-//                 <a
-//                   href="/page/mission.html"
-//                   className="block px-4 py-2 text-white hover:bg-gray-800"
-//                 >
-//                   Programming Services
-//                 </a>
-//               </li>
-//             </ul>
-//           </li>
-//           <li>
-//             <Link
-//               to="/contact"
-//               className="text-red-600 font-normal hover:text-blue-600"
-//             >
-//               Contact
-//             </Link>
-//           </li>
-//           <li>
-//             <a
-//               href="/index.html"
-//               className="text-red-600 font-normal hover:text-blue-600"
-//             >
-//               News
-//             </a>
-//           </li>
-//         </ul>
-//       </div>
-//     </nav>
-//   );
-// };
-
-// export default Navbar;

@@ -62,7 +62,7 @@ const BlogDetail = () => {
 
   if (loading) return <Loader />;
   return (
-    <div className="mt-20">
+    <div className="text-sm mt-20">
       <div
         className="relative w-full h-[200px] bg-cover bg-center"
         style={{
@@ -83,7 +83,7 @@ const BlogDetail = () => {
       <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-10 px-4 py-10">
         {/* Blog Detail */}
 
-        <div className="lg:w-2/3 w-full">
+        <div className="lg:w-2/3 w-full  px-1 md:px-0">
           <img
             src={`${imgapi}${image}`}
             alt={title}
@@ -95,9 +95,9 @@ const BlogDetail = () => {
           <p className="text-gray-700 font-medium text-sm mb-2">
             Posted On: {date}
           </p>
-          <h1 className="text-xl font-bold text-red-600 mb-4">{title}</h1>
+          <h1 className="font-bold text-red-600 mb-4">{title}</h1>
           <div
-            className="blog-description"
+            className="blog-description prose prose-sm md:prose-base  px-1 md:px-0"
             dangerouslySetInnerHTML={{ __html: description }}
           />
         </div>

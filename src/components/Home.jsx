@@ -41,29 +41,12 @@ const Home = () => {
   const [blogs, setBlogs] = useState([]);
   const [books, setBooks] = useState([]);
 
-  // useEffect(() => {
-  //   const fetchBlogData = async () => {
-  //     try {
-  //       const res = await axios.get(`${api}/blogs/`);
-  //       setBlogs(res.data);
-  //       console.log(res.data);
-  //     } catch (error) {
-  //       console.log(error);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-
   useEffect(() => {
     const fetchBlogData = async () => {
       try {
         const [recent] = await Promise.all([fetchRecentBlogs(api)]);
 
-        setBlogs(
-          recent.filter(
-            (item) =>  item.status === true
-          )
-        );
+        setBlogs(recent.filter((item) => item.status === true));
       } catch (error) {
         toast.error("Failed to load blog data.");
       } finally {
@@ -103,7 +86,7 @@ const Home = () => {
       </section>
 
       {/* Intro Section */}
-      <section className="max-w-5xl mx-auto px-3 md:px-0 py-6">
+      <section className="max-w-6xl text-sm mx-auto px-5 md:px-0 py-6 ">
         <p className="text-justify">
           Dr. Vikram Sethi is a professor at Wright State University, Raj Soin
           College of Business. He was founder and Director of the Institute of
@@ -126,10 +109,10 @@ const Home = () => {
 
       {/* Quote Section */}
       <section className="text-center px-3 md:px-0 py-6">
-        <h2 className="text-red-600 text-xl font-semibold">
+        <h2 className="text-red-600 text-xl font-semibold px-7 md:px-0">
           "The story begins only when the book closes." ~ Marshall McLuhan
         </h2>
-        <p className="max-w-4xl mx-auto mt-4 text-justify">
+        <p className="max-w-6xl text-sm mx-auto mt-4  px-3 md:px-0 text-justify leading-relaxed">
           It is time to build a global cyber regime for the good of the global
           village. Mass communications has changed a lot since the first
           writings of Marshall McLuhan. Social media drives our beliefs and
@@ -147,8 +130,19 @@ const Home = () => {
 
       {/* Blogs Section */}
       <section className="text-center py-10">
-        <h2 className="text-2xl font-bold text-red-600 mb-6">BLOGS</h2>
-        <ul className="max-w-4xl mx-auto text-left text-sm space-y-2">
+        <div className="max-w-4xl mx-auto px-4">
+          <div className="flex items-center justify-center my-8">
+            <div className="relative w-full h-px bg-gray-300">
+              <span className="absolute left-0 top-1/2 -translate-y-1/2 w-3 h-3 bg-gray-400 rounded-full"></span>
+              <span className="absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 bg-gray-400 rounded-full"></span>
+            </div>
+            <div className="absolute left-1/2 -translate-x-1/2 bg-white px-4">
+              <h2 className="text-2xl font-bold text-red-600">BLOGS</h2>
+            </div>
+          </div>
+        </div>
+
+        <ul className="max-w-4xl  px-5 md:px-0 mx-auto text-left text-sm space-y-2">
           {blogs.length > 0 &&
             blogs.map((el, i) => (
               <li
@@ -156,14 +150,14 @@ const Home = () => {
                 onClick={() => navigate(`/blogs/${el.id}`)}
                 className="cursor-pointer transition-all duration-200 hover:pl-3 hover:text-red-600 hover:font-medium"
               >
-                <span className="text-red-600 font-bold">{">"} </span>
+                <span className="text-red-600 font-bold">{">"}  </span>
                 {el.title}
               </li>
             ))}
         </ul>
       </section>
 
-      <Card books={books} category={"Books"} />
+      <Card books={books} category={"BOOKS"} />
     </main>
   );
 };

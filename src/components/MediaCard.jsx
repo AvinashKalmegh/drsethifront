@@ -7,9 +7,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { getMediaById } from "./Admin/Media/mediaApi";
 
-
-
-const MediaCard  = () => {
+const MediaCard = () => {
   const { Id } = useParams();
 
   const [loading, setLoading] = useState(true);
@@ -20,8 +18,6 @@ const MediaCard  = () => {
   const { api, imgapi, preview } = useContext(MyContext);
   const [category1, setCategory1] = useState("");
 
-
-
   useEffect(() => {
     const loadBlog = async () => {
       try {
@@ -31,7 +27,7 @@ const MediaCard  = () => {
         setDescription(data.description || "");
         setImage(data.photo_upload || null); // store image path
         console.log(data);
-        setCategory1(data.category || "")
+        setCategory1(data.category || "");
 
         const formattedDate = new Date(data.created_at).toLocaleDateString(
           "en-US",
@@ -54,7 +50,7 @@ const MediaCard  = () => {
 
   if (loading) return <Loader />;
   return (
-    <div className="mt-20">
+    <div className="mt-20 ">
       <div
         className="relative w-full h-[200px] bg-cover bg-center"
         style={{
@@ -66,13 +62,15 @@ const MediaCard  = () => {
           style={{ backgroundColor: "rgba(73, 71, 71, 0.6)" }}
         />
         <div className="absolute inset-0 z-20 flex items-center justify-center md:justify-start md:px-40">
-          <p className="text-2xl md:text-4xl font-semibold text-white">{category1}</p>
+          <p className="text-2xl md:text-4xl font-semibold text-white">
+            {category1}
+          </p>
         </div>
       </div>
       {/* <p className=" px-35 mt-5">
         <span>Blog</span> <span>{title}</span>
       </p> */}
-      <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-10 px-4 py-10">
+      <div className="text-sm max-w-7xl mx-auto flex flex-col lg:flex-row gap-10 px-6 md:px-4 py-10">
         {/* Blog Detail */}
 
         <div className="lg:w-2/3 w-full">
@@ -87,13 +85,12 @@ const MediaCard  = () => {
           <p className="text-gray-700 font-medium text-sm mb-2">
             Posted On: {date}
           </p>
-          <h1 className="text-xl font-bold text-red-600 mb-4">{title}</h1>
+          <h1 className=" font-bold text-red-600 mb-4">{title}</h1>
           <div
-            className="blog-description text-base leading-relaxed"
+            className="blog-description text-base text-sm leading-relaxed"
             dangerouslySetInnerHTML={{ __html: description }}
           />
         </div>
-
       </div>
     </div>
   );

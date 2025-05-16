@@ -35,7 +35,7 @@ const Articles = () => {
   if (loading) return <Loader />;
 
   return (
-    <section className="relative w-full bg-cover bg-center  mt-20 mb-10">
+    <section className="text-sm relative w-full bg-cover bg-center  mt-20 mb-10">
       <div
         className="relative w-full h-[200px] bg-cover bg-center"
         style={{

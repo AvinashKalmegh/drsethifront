@@ -29,7 +29,7 @@ const BlogsCard = ({ blogs, imgapi }) => {
                   day: "2-digit",
                 })}
               </p>
-              <h3 className="font-medium text-gray-800 leading-snug line-clamp-2">
+              <h3 className="font-medium text-sm text-gray-800 leading-snug line-clamp-2">
                 {blog.title}
               </h3>
             </div>

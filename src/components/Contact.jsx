@@ -48,7 +48,7 @@ const Contact = () => {
   if (loading) return <Loader />;
 
   return (
-    <section className="relative w-full bg-cover bg-center text-whit mt-20 mb-10">
+    <section className="text-sm relative w-full bg-cover bg-center text-whit mt-20 mb-10">
       <div
         className="relative w-full h-[200px] bg-cover bg-center"
         style={{
@@ -66,25 +66,25 @@ const Contact = () => {
         </div>
       </div>
       {/* Content */}
-      <div className="relative z-20 flex flex-col md:flex-row items-start justify-start mt-5  md:pl-40  text-center md:text-left">
+      <div className="text-sm relative z-20 flex flex-col md:flex-row items-start justify-start mt-5  md:pl-40  text-center md:text-left">
         <div className="w-full md:w-1/2">
           {/* <h2 className="text-4xl font-bold mb-0">CONTACT US</h2> */}
           {offices.length > 0 &&
             offices.map((el, idx) => (
               <div key={idx} className="mt-5">
-                <h3 className="text-lg font-semibold text-red-500 border-b-2 border-red-500 inline-block mb-4">
+                <h3 className="text-sm font-semibold text-red-500 border-b-2 border-red-500 inline-block mb-4">
                   {el.branch_name}
                 </h3>
                 <div
-                  className="blog-description text-base leading-relaxed"
+                  className="blog-description text-base text-sm leading-relaxed"
                   dangerouslySetInnerHTML={{ __html: el.address }}
                 />
               </div>
             ))}
 
-          <p className="text-base mb-2 mt-5">
+          <p className="text-base text-sm mb-2 mt-5">
             <p className="text-black">Call Us</p>
-            <span className="text-red-500 font-normal text-2xl">
+            <span className="text-red-500 font-normal text-xl">
               {profileData.phone}
             </span>
           </p>

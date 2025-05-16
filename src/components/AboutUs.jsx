@@ -49,7 +49,7 @@ const AboutUs = () => {
       </div>
 
       {/* Main Content Section */}
-      <div className="flex flex-col text-justify lg:flex-row px-6 md:px-12 lg:px-24 py-12">
+      <div className="text-sm flex flex-col text-justify lg:flex-row px-6 md:px-12 lg:px-24 py-12">
         {/* Main Text */}
         <div className="lg:w-3/4 space-y-6">
           {activeTab === "introduction" ? (
